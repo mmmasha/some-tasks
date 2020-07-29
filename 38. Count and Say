@@ -1,0 +1,28 @@
+https://leetcode.com/problems/count-and-say/
+class Solution {
+public:
+    string sequense_term(string prev) {
+        string ans;
+        int i = 0;
+        while (i < prev.size()) {
+            char rep = prev[i];
+            int k = 1;
+            i++;
+            while (prev[i] == rep && i < prev.size()) {
+                k++;
+                i++;
+            }
+            ans += to_string(k);
+            ans += rep;
+        }
+        return ans;
+    }
+    string countAndSay(int n) {
+        vector<string>sequense(n);
+        sequense[0] = "1";
+        for(int i = 1; i < n; i++){
+            sequense[i] = sequense_term(sequense[i-1]);
+        }
+        return sequense[n-1];
+    }
+};
