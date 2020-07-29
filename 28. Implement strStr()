@@ -1,0 +1,21 @@
+https://leetcode.com/problems/implement-strstr/
+class Solution {
+public:
+    bool IsInStr(string haystack, string needle, int i){
+        int j = 0;
+        for(i, j; j < needle.size(); i++, j++){
+            if(haystack[i] != needle[j])
+                return false;
+        }
+        return true;
+    }
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+        int size = haystack.size() - needle.size();
+        for(int i = 0; i <= size;i++){
+            if(IsInStr(haystack, needle, i))
+                return i;
+        }
+        return -1;
+    }
+};
