@@ -1,0 +1,27 @@
+https://leetcode.com/problems/add-binary/
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string ans;
+        reverse(a.begin(), a.end());
+        reverse(b.begin(), b.end());
+        while (a.size() > b.size()) {
+            b.push_back('0');
+        }
+        while (b.size() > a.size()) {
+            a.push_back('0');
+        }
+        int n = a.size();
+        int r = 0;
+        int i = 0;
+        for (i; i < n; i++) {
+            int tmp = static_cast<int>(a[i]) - '0' + static_cast<int>(b[i]) - '0'  + r;
+            ans += to_string(tmp % 2);
+            if (tmp >= 2) r = 1;
+            else r = 0;
+        }
+        if (r == 1) ans.push_back('1');
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
