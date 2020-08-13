@@ -1,0 +1,15 @@
+https://leetcode.com/problems/k-closest-points-to-origin/
+int euclid_norm(vector<int>point) {
+    return point[0] * point[0] + point[1] * point[1];
+}
+bool comp(const vector<int>& p1, const vector<int>& p2) {
+    return euclid_norm(p1) < euclid_norm(p2);
+}
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
+        sort(points.begin(), points.end(), comp);
+        vector<vector<int>>ans(points.begin(), points.begin() + K);
+        return ans;
+    }
+};
