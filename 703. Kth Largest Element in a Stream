@@ -1,0 +1,98 @@
+https://leetcode.com/problems/kth-largest-element-in-a-stream/
+/*class Heap{
+private:
+    vector<int>heap;
+public:
+    int get(){
+        return heap[0];
+    }
+    
+    void push(int val){
+        heap.push_back(val);
+        int i = heap.size()-1;
+        int parent = (i-1)/2;
+        while(i > 0 && heap[i] > heap[parent]){
+            swap(heap[i], heap[parent]);
+            i = parent;
+            parent = (i - 1) / 2;
+        }
+    }
+    
+    void heapify(int i){
+        int leftChild;
+        int rightChild;
+        int largestChild;
+        for (; ; )
+        {
+            leftChild = 2 * i + 1;
+            rightChild = 2 * i + 2;
+            largestChild = i;
+
+            if (leftChild < heap.size() && heap[leftChild] > heap[largestChild]) 
+            {
+                largestChild = leftChild;
+            }
+
+            if (rightChild < heap.size() && heap[rightChild] > heap[largestChild])
+            {
+                largestChild = rightChild;
+            }
+
+            if (largestChild == i) 
+            {
+                break;
+            }
+            swap(heap[i], heap[largestChild]);
+            i = largestChild;
+        }
+    }
+    
+    void pop_first(){
+        swap(heap[0], heap[heap.size()-1]);
+        heap.pop_back();
+        heapify(0);
+    }
+};*/
+class KthLargest /*:public Heap*/ {
+public:
+    KthLargest(int k, vector<int>& nums) {
+        k_ = k;
+        /*for(int i = 0; i < nums.size(); i++){
+            H.push(nums[i]);
+        }*/
+        sorted = nums;
+        sort(sorted.begin(), sorted.end(), greater<int>());
+    }
+    
+    int add(int val) {
+        /*vector<int>tmp;
+        H.push(val);
+        int K = k_-1;
+        for(int i = 0; i < K; i++){
+            tmp.push_back(H.get());
+            H.pop_first();
+        }
+        val = H.get();
+        for(int i = 0; i < K; i++){
+            H.push(tmp[i]);
+        }
+        return val;*/
+        sorted.push_back(val);
+        int i = sorted.size()-1;
+        while(i > 0 && sorted[i] > sorted[i-1]){
+            swap(sorted[i], sorted[i-1]);
+            i--;
+        }
+        return sorted[k_-1];
+    }
+private:
+    int k_;
+    vector<int>sorted;
+    //Heap H;
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
