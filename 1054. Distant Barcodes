@@ -1,0 +1,45 @@
+https://leetcode.com/problems/distant-barcodes/
+struct comparator{
+  bool operator()(pair<int, int>a, pair<int, int>b){
+      if(a.second == b.second) return a.first > b.first;
+      return a.second < b.second;
+  }  
+};
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        /*vector<int>count(10001, 0);
+        for(int i = 0; i < barcodes.size(); i++){
+            count[barcodes[i]]++;
+        }
+        //pq.first - номер, pq.second - количество
+        priority_queue<int, vector<pair<int, int>>, comparator>pq;
+        for(int i = 0; i < 10; i++){
+            if(count[i]){
+                pq.push(make_pair(i, count[i]));
+            }
+        }*/
+        priority_queue<int, vector<pair<int, int>>, comparator>pq;
+        map<int, int>mp;
+        for(int i = 0; i < barcodes.size(); i++){
+            if(mp.count(barcodes[i]))
+                mp[barcodes[i]]++;
+            else mp[barcodes[i]] = 1;
+        }
+        for (auto t: mp){
+            pq.push(t);
+        }
+        vector<int>ans;
+        while(pq.size() > 1){
+            pair<int, int>a = pq.top();
+            pq.pop();
+            pair<int, int>b = pq.top();
+            pq.pop();
+            ans.push_back(a.first); ans.push_back(b.first);
+            a.second--; b.second--;
+            if(a.second) pq.push(a); if(b.second) pq.push(b);
+        }
+        if(pq.empty()) return ans;
+        ans.push_back(pq.top().first); return ans;
+    }
+};
