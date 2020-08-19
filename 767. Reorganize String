@@ -1,0 +1,40 @@
+https://leetcode.com/problems/reorganize-string/
+struct comparator{
+  bool operator()(pair<char, int>a, pair<char, int>b){
+      if (a.second == b.second) return a.first > b.first;
+      return a.second < b.second;
+  }  
+};
+class Solution {
+public:
+    string reorganizeString(string S) {
+        priority_queue <pair<char,int>, vector<pair<char, int>>, comparator>pq;
+        vector<int>count(26, 0);
+        for(int i = 0; i < S.size(); i++){
+            count[S[i] - 'a']++;
+        }
+        for(int i = 0; i < count.size(); i++){
+            if(count[i]){
+                pq.push(make_pair((char)(i + 'a'), count[i]));
+            }
+        }
+        string ans = "";
+        while(pq.size() > 1){
+            pair<char, int>a = pq.top();
+            pq.pop();
+            pair<char, int>b = pq.top();
+            pq.pop();
+            ans += a.first; ans +=b.first;
+            a.second--;b.second--;
+            if(b.second) pq.push(b); if(a.second) pq.push(a);
+        }
+        if(pq.empty()){
+            return ans;
+        }
+        if(pq.top().second > 1) return "";
+        else{
+            ans.push_back(pq.top().first);
+        }
+        return ans;
+    }
+};
